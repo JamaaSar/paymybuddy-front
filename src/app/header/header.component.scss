@@ -1,0 +1,14 @@
+header {
+  position: sticky;
+  top: 20px;
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+  .menu {
+    display: flex;
+    list-style: none;
+    li {
+      margin: 5px;
+    }
+  }
+}
