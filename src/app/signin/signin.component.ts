@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../service/authentication.service';
-import { TokenService } from '../token.service';
+import { User } from 'src/model/user';
 
 
 @Component({
@@ -11,45 +11,26 @@ import { TokenService } from '../token.service';
 
 })
 
-export class SigninComponent {
+export class SigninComponent implements OnInit{
 
- form: any = {
-    email: null,
-    password: null
-  };
+  email: string = "";
+  password:  string = "";
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
+  currentUser: User | undefined;
 
-  constructor(private authService: AuthenticationService, private tokenService: TokenService) { }
-
-  ngOnInit(): void {
-    if (this.tokenService.isLoggedIn()) {
-      this.isLoggedIn = true;
-    }
+  constructor(
+    private authService: AuthenticationService,
+    ) { }
+  ngOnInit() {
   }
 
-  onSubmit(): void {
-    const { email, password } = this.form;
-
-    this.authService.login(email, password).subscribe({
-      next: data => {
-        console.log(data);
-        this.tokenService.saveUser(data);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.reloadPage();
-      },
-      error: err => {
-        console.log(err);
-        this.errorMessage = err.message;
-        this.isLoginFailed = true;
-      }
-    });
+	onLogin() {
+    this.authService.login(this.email, this.password);
   }
-
   reloadPage(): void {
     window.location.reload();
   }
+
 }

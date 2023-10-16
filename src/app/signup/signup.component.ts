@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../service/authentication.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-signup',
@@ -8,30 +9,21 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class SignupComponent {
 
-  form: any = {
-    firstname: null,
-    lastname: null,
-    email: null,
-    password: null,
-    repassword:null
-  };
-  isSuccessful = false;
-  isSignUpFailed = false;
-  errorMessage = '';
-  
+    firstName:string = ""
+    lastName:string = ""
+    email:string = ""
+    password:string = ""
+    repassword:string = ""
+    isSuccessful = false;
+    isSignUpFailed = false;
+    errorMessage = '';
+
   constructor(private authService: AuthenticationService) { }
-  onSubmit(): void {
-  const { firstname, lastname, email, password, repassword } = this.form;
-  if(firstname === lastname){  this.authService.register(firstname, lastname, email, password).subscribe({
-      next: data => {
-        console.log(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },
-      error: err => {
-        this.errorMessage = err.message;
-        this.isSignUpFailed = true;
-      }
-    });
+
+  onRegister(): void {
+
+    if (this.password === this.repassword) {
+      this.authService.register(this.firstName, this.lastName, this.email, this.password);
   } }
+		
 }

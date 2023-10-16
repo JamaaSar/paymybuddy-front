@@ -1,13 +1,15 @@
 import { Account } from "./account";
 
-export interface User{
-    id: number;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    repassword: string;
-    account: Account;
+export class User{
+    [x: string]: any;
+    id!: number;
+    firstName!: string;
+    lastLame!: string;
+    email!: string;
+    password?: string;
+    account?: Account;
+    friends?: User[] ;
+    token?: string;
 
 
 

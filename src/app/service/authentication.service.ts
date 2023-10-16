@@ -1,9 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { User } from 'src/model/user';
+import { environment } from '../../environments/environment';
+import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
-const AUTH_API = 'http://localhost:8080/api/v1/auth/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,34 +16,81 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
+  private id: number;
+  user: User = new User();
 
-  login(username: string, password: string): Observable<any> {
-    console.log(httpOptions);
-    return this.http.post(
-      AUTH_API + 'signin',
-      {
-        username,
-        password,
-      },
-      httpOptions
-    );
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+  constructor(private http: HttpClient,public router: Router) {
+    this.id = JSON.parse(localStorage.getItem('id')!);
+  }
+  public get userId() {
+        return this.id;
   }
 
-  register(firstname: string,lastname:string, email: string, password: string): Observable<any> {
-    return this.http.post(
-      AUTH_API + 'signup',
+  get isLoggedIn() {
+    let authToken = localStorage.getItem('auth_token');
+    return authToken !== null ? true : false;
+  }
+  getUser(id: number):Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/user/${id}`,
+      {headers : this.headers});
+  }
+  
+  getToken() {
+    return localStorage.getItem('access_token');
+  }
+  login(email: string, password: string) {
+      return this.http.post<User>(`${environment.apiUrl}/login`,{
+        email,
+        password,
+      },  {headers : this.headers})
+      .subscribe((res: any) => {
+        localStorage.setItem('auth_token', res.token);
+        localStorage.setItem('id', res.id);
+        window.location.reload();
+      });
+  }
+
+  register(firstName: string, lastName: string, email: string, password: string){
+    return this.http.post(`${environment.apiUrl}/register`,
       {
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         password,
       },
       httpOptions
-    );
+    ).subscribe((res: any) => {
+      this.router.navigate(['/signin'])
+      .then(() => {
+      window.location.reload();
+      });
+      });
   }
 
-  logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', { }, httpOptions);
+
+  logout() {
+    let removeToken = window.localStorage.removeItem("auth_token");
+      window.localStorage.removeItem("id");
+    if (removeToken == null) {
+        this.router.navigate(['/signin'])
+      .then(() => {
+      window.location.reload();
+      });
+    }
   }
+
+  handleError(error: HttpErrorResponse) {
+    let msg = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      msg = error.error.message;
+    } else {
+      // server-side error
+      msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(msg);
+  }
+  
 }
