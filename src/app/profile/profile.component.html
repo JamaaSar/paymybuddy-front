@@ -1,1 +1,46 @@
-<p>profile works!</p>
+<div  class="container">
+<div class="custom_grid">
+    <div class="">
+        <h4> Gestion IBAN</h4>
+        <div *ngIf="!iban">
+        <h5>Ajouter un IBAN</h5>
+
+            <form  class="custom_form" name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
+                <label for="iban">Iban</label>
+                <input type="text" class="form-control" name="iban" [(ngModel)]="iban" required placeholder="Iban" />
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+       
+        <div *ngIf="iban" >
+            <p>Ton IBAN : <b>{{iban}}</b> </p>
+            <button type="submit">Modifier</button>
+        </div>
+    </div>
+    <div>
+        <h4> Gestion argent</h4>
+        <form class="custom_form" name="form" (ngSubmit)="charger()" #f="ngForm" novalidate>
+            <fieldset>
+                <div>
+                    <input type="radio" id="deposit" name="deposit" value="deposit" checked />
+                    <label for="deposit">Deposit</label>
+                </div>
+                <div>
+                    <input type="radio" id="deposit" name="deposit" value="deposit" checked />
+                    <label for="deposit">Wiithdraw</label>
+                </div>
+            </fieldset>
+            <div>
+                <label for="balance">Amount</label>
+                <input type="text" class="form-control" name="balance" [(ngModel)]="balance" required placeholder="Iban" />
+            </div>
+            <button type="submit">Valider</button>
+        </form>
+    </div>
+</div>
+
+<app-friend [friendList]="userFriendList" [allUser]="allUser"></app-friend>
+
+
+</div>

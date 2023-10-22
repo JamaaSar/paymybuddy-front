@@ -1,7 +1,5 @@
 export interface Account{
-
-    id: number;
-    balance: number;
+    balance: number  ;
     iban: string;
 
 }

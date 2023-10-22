@@ -1,10 +1,9 @@
 import { Account } from "./account";
 
 export class User{
-    [x: string]: any;
     id!: number;
     firstName!: string;
-    lastLame!: string;
+    lastName!: string;
     email!: string;
     password?: string;
     account?: Account;

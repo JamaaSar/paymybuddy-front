@@ -19,7 +19,7 @@ export class AppComponent {
             next: data => {
               this.currentUser = data;
             },error: err => {}})
-        this.router.navigate(['/homepage']);
       } 
     }
 }
+  

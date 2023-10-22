@@ -10,7 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,NgControl,ReactiveFormsModule } from '@angular/forms';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AuthGuard } from './guard';
 import { FriendComponent } from './friend/friend.component';
@@ -41,7 +41,9 @@ import { ProfileComponent } from './profile/profile.component';
     MatIconModule,
     TableModule,
     PaginatorModule,
-    ButtonModule
+    ButtonModule,
+    ReactiveFormsModule,
+    
 
 
   ],

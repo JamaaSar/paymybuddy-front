@@ -3,9 +3,7 @@
 
     <ul class="menu" >
         <li [routerLink]="['/home']">Home</li>
-        <li *ngIf="currentUser">Transfer</li>
-        <li *ngIf="currentUser">Profile</li>
-        <li *ngIf="currentUser">Contact</li>
+        <li *ngIf="currentUser" [routerLink]="['/profile']">Profile</li>
         <li *ngIf="!currentUser" [routerLink]="['/signup']" >Sign up</li>
         <li *ngIf="currentUser" [routerLink]="['/logout']" (click)="logout()">Logout</li> 
 

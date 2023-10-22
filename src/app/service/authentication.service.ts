@@ -32,6 +32,7 @@ export class AuthenticationService {
     let authToken = localStorage.getItem('auth_token');
     return authToken !== null ? true : false;
   }
+
   getUser(id: number):Observable<User> {
     return this.http.get<User>(`${environment.apiUrl}/user/${id}`,
       {headers : this.headers});
@@ -40,43 +41,38 @@ export class AuthenticationService {
   getToken() {
     return localStorage.getItem('access_token');
   }
+
   login(email: string, password: string) {
-      return this.http.post<User>(`${environment.apiUrl}/login`,{
-        email,
-        password,
-      },  {headers : this.headers})
-      .subscribe((res: any) => {
-        localStorage.setItem('auth_token', res.token);
-        localStorage.setItem('id', res.id);
-        window.location.reload();
-      });
+    return this.http.post<User>(`${environment.apiUrl}/login`,
+      {email, password}, { headers: this.headers }
+    ).subscribe((res: any) => {
+      localStorage.setItem('auth_token', res.token);
+      localStorage.setItem('id', res.id);
+        this.router.navigate(['/'])
+        .then(() => {
+          window.location.reload();
+        });
+    });
   }
 
   register(firstName: string, lastName: string, email: string, password: string){
     return this.http.post(`${environment.apiUrl}/register`,
-      {
-        firstName,
-        lastName,
-        email,
-        password,
-      },
-      httpOptions
+      {firstName, lastName, email, password}, httpOptions
     ).subscribe((res: any) => {
       this.router.navigate(['/signin'])
       .then(() => {
-      window.location.reload();
+        window.location.reload();
       });
-      });
+    });
   }
-
 
   logout() {
     let removeToken = window.localStorage.removeItem("auth_token");
-      window.localStorage.removeItem("id");
+    window.localStorage.removeItem("id");
     if (removeToken == null) {
-        this.router.navigate(['/signin'])
+      this.router.navigate(['/signin'])
       .then(() => {
-      window.location.reload();
+        window.location.reload();
       });
     }
   }
@@ -84,10 +80,8 @@ export class AuthenticationService {
   handleError(error: HttpErrorResponse) {
     let msg = '';
     if (error.error instanceof ErrorEvent) {
-      // client-side error
       msg = error.error.message;
     } else {
-      // server-side error
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(msg);

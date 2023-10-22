@@ -1,8 +1,8 @@
 header {
-  position: sticky;
   top: 20px;
   height: 100px;
   display: flex;
+  align-items: center;
   justify-content: space-around;
   .menu {
     display: flex;

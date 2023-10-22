@@ -23,13 +23,15 @@ export class HomepageComponent implements OnInit {
   
   ngOnInit() {
     this.getUser()
+    console.log(this.currentUser);
     this.getAllUser()
   }
-
+ 
   async getUser() {
     this.userService.getUser(this.id).subscribe({
     next: data => {
-      this.currentUser = data;
+        this.currentUser = data;
+        console.log(data);
       this.userFriendList = data.friends;
     },
     error: err => {}

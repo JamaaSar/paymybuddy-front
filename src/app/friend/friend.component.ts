@@ -26,7 +26,6 @@ export class FriendComponent {
 
   onChange(e: string) {
     this.text = e;
-    console.log(e)
     if (!e) {
       this.searchResult = this.friendList;
     }

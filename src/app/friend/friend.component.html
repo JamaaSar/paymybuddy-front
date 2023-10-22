@@ -1,4 +1,15 @@
 <div class="card"  style="500px">
+    <div class="addFriend_section">
+        <h4>Ajouter un(e) ami(e)</h4>
+<input type="text" placeholder="Chercher un(e) ami(e)" [ngModel]='text' (ngModelChange)="onChange($event)">
+<ul>
+    <li *ngFor="let show of searchResult" (click)="showDetails(show)" [hidden]="toggle">
+        <p> {{ show.firstName }}</p>
+    </li>
+</ul>
+    </div>
+
+   
     <p-table [value]="friendList" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowsPerPageOptions]="[10, 25, 50]">
@@ -7,7 +18,6 @@
                 <th style="width:80px">Nom</th>
                 <th style="width:80px">Prenom</th>
                 <th style="width:80px">Email</th>
-                <th style="width:80px"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
@@ -15,9 +25,7 @@
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
                 <td>{{ user.email }}</td>
-                <td>
-                    <button *ngIf=""> Envoyer l'argent</button>
-                    </td>
+
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
@@ -28,9 +36,4 @@
         </ng-template>
     </p-table>
 </div>
-<input type="text" placeholder="Chercher un(e) ami(e)" [ngModel]='text'  (ngModelChange)="onChange($event)" >
-<ul>
-    <li *ngFor="let show of searchResult" (click)="showDetails(show)" [hidden]="toggle">
-        <p> {{ show.firstName }}</p>
-    </li>
-</ul>
+
