@@ -6,20 +6,19 @@ import { AppComponent } from './app.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { HeaderComponent } from './header/header.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { FriendComponent } from './friend/friend.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AuthInterceptor } from './guard/auth. interceptor';
+
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatIconModule} from '@angular/material/icon';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { FormsModule,NgControl,ReactiveFormsModule } from '@angular/forms';
-import { HomepageComponent } from './homepage/homepage.component';
-import { AuthGuard } from './guard';
-import { FriendComponent } from './friend/friend.component';
+import { MatIconModule } from '@angular/material/icon';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
-import { AuthInterceptor } from './guard/auth. interceptor';
-import { AuthenticationService } from './service/authentication.service';
-import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -43,20 +42,17 @@ import { ProfileComponent } from './profile/profile.component';
     PaginatorModule,
     ButtonModule,
     ReactiveFormsModule,
-    
-
-
   ],
   providers: [
     AuthInterceptor,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
 
-        // provider used to create fake backend
-    ],
-  bootstrap: [AppComponent]
+    // provider used to create fake backend
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

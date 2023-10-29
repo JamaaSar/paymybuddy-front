@@ -1,49 +1,45 @@
-<div >
-            <form class="custom_form" *ngIf="!isSuccessful" name="form" (ngSubmit)="onRegister()" #f="ngForm" novalidate>
-                <div class="form-group custom_div">
-                    <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
-                    <input type="text" class="form-control" name="firstName" [(ngModel)]="firstName" required placeholder="Firstname"
-                       />
-                   
-                </div>
-                <div class="form-group custom_div">
-                    <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
-                    <input type="text" class="form-control" name="lastName" [(ngModel)]="lastName" required  placeholder="Lastname"
-                        />
-                   
-                </div>
-                <div class="form-group custom_div">
-                    <mat-icon aria-hidden="false" class="custom_icon" fontIcon="mail"></mat-icon>
-                    <input type="email" class="form-control" name="email" [(ngModel)]="email" required placeholder="Email"
-                        />
-                 
-                </div>
-                <div class="form-group custom_div">
-                    <mat-icon aria-hidden="false" class="custom_icon" fontIcon="password"></mat-icon>
-                    <input type="password" class="form-control" name="password" [(ngModel)]="password" required placeholder="Password"
-                        minlength="6" />
-            
-                </div>
-                <div class="form-group custom_div">
-                    <mat-icon aria-hidden="false" class="custom_icon" fontIcon="password"></mat-icon>
-                    <input type="repassword" class="form-control" name="repassword" [(ngModel)]="repassword" required placeholder="Re-Password"
-                        minlength="6" />
-                   
-                </div>
-                <div class="form-group ">
-                    <button  type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                </div>
-    
-                <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-                    Signup failed!<br />{{ errorMessage }}
-                </div>
-            </form>
-    
-            <div class="alert alert-success" *ngIf="isSuccessful">
-                Your registration is successful!
-            </div>
-
-            <div >
-            <button  [routerLink]="['/logout']" >Login</button>
-            </div>
+<form class="signupForm" [formGroup]="signupForm" name="form" (ngSubmit)="onRegister()" novalidate>
+    <div class="custom_div" [class.is-invalid]="firstName.invalid && firstName.touched">
+        <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
+        <input type="text" class="custom_input" name="firstName" formControlName="firstName" required
+            placeholder="Nom" />
     </div>
+    <div *ngIf="(firstName.invalid && firstName.touched) || firstName.dirty">
+        <small *ngIf="firstName.errors?.required" class="text-danger">Le nom de famille est obligatoire</small>
+    </div>
+    <div class="custom_div" [class.is-invalid]=" lastName.invalid && lastName.touched">
+        <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
+        <input type="text" class="custom_input" name="lastName" formControlName="lastName" required
+            placeholder="Prenom" />
+    </div>
+    <div *ngIf="(lastName.invalid && lastName.touched) || lastName.dirty">
+        <small *ngIf="lastName.errors?.required" class="text-danger">Le prénom est obligatoire</small>
+    </div>
+    <div class="custom_div" [class.is-invalid]="email.invalid && email.touched">
+        <mat-icon aria-hidden="false" class="custom_icon" fontIcon="mail"></mat-icon>
+        <input type="email" class="custom_input" name="email" formControlName="email" required placeholder="Email" />
+    </div>
+    <div *ngIf="(email.invalid && email.touched) || email.dirty">
+        <small *ngIf="email.errors?.required" class="text-danger">L'e-mail est obligatoire</small>
+        <!--question mark(?) is a safe navigation operator-->
+        <small *ngIf="email.errors?.pattern" class="text-danger">Please provide a valid email address</small>
+    </div>
+    <div class="custom_div" [class.is-invalid]="password.invalid && password.touched">
+        <mat-icon aria-hidden="false" class="custom_icon" fontIcon="lock"></mat-icon>
+        <input type="password" class="custom_input" name="password" formControlName="password" required
+            placeholder="Mot de passe" minlength="6" />
+    </div>
+    <div *ngIf="(password.invalid && password.touched) || password.dirty">
+        <small *ngIf="password.errors?.required" class="text-danger">Password is required</small>
+        <!--question mark(?) is a safe navigation operator-->
+        <small *ngIf="password.errors?.minlength" class="text-danger">Password must be 8 characters long</small>
+    </div>
+    <div class="form-group">
+        <div *ngIf="isSignUpFailed" class="alert" role="alert">
+            {{ errorMessage }}
+        </div>
+    </div>
+    <button [disabled]="signupForm.invalid" type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+</form>
+<div class="loginText">Vous avez déjà un compte ? <a [routerLink]="['/logout']"> &nbsp;&nbsp;&nbsp; Se connecter</a>
+</div>

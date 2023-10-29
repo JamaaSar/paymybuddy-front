@@ -3,12 +3,17 @@ header {
   height: 100px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  h2 {
+    color: rgb(108, 202, 98);
+  }
   .menu {
     display: flex;
     list-style: none;
+    color: rgb(81, 156, 239);
+    //  color: rgb(239, 104, 17);
     li {
-      margin: 5px;
+      margin: 5px 15px;
     }
   }
 }

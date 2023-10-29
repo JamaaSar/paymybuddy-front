@@ -1,46 +1,82 @@
-<div  class="container">
-<div class="custom_grid">
-    <div class="">
-        <h4> Gestion IBAN</h4>
-        <div *ngIf="!iban">
-        <h5>Ajouter un IBAN</h5>
+<div class="container">
+    <div class="custom_grid">
+        <div class="gestionIban">
+            <h4> Gestion IBAN</h4>
+            <div *ngIf="!iban">
+                <h5>Ajouter un IBAN</h5>
+                <form class="custom_form" name="form" (ngSubmit)="addIban()" [formGroup]="ibanForm" novalidate>
+                    <label for="iban">Iban</label>
+                    <input type="text" class="form-control" name="iban" formControlName="iban" required
+                        placeholder="Iban" />
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <div *ngIf="iban">
+                <table class="sectionIban">
+                    <thead>
+                        <tr>
+                            <th style="width: 200px; text-align: left;">Iban</th>
+                            <th style="width: 100px; text-align: left;">Solde</th>
+                            <th style="width: 50px; text-align: left;">Editer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ userAccount.iban}}</td>
+                            <td>{{ userAccount.balance}}</td>
+                            <td><button type="submit"><mat-icon aria-hidden="false" class="custom_icon"
+                                        fontIcon="create"></mat-icon>
+                                </button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <form  class="custom_form" name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
-                <label for="iban">Iban</label>
-                <input type="text" class="form-control" name="iban" [(ngModel)]="iban" required placeholder="Iban" />
-                <button type="submit">Submit</button>
+            <div *ngIf="iban">
+                <p>solde: <b>{{solde}}</b> </p>
+            </div>
+        </div>
+
+
+        <div class="gestionArgent">
+            <h4> Gestion argent</h4>
+            <form #chargerForm="ngForm" (ngSubmit)="charger(chargerForm)">
+                <fieldset>
+                    <div>
+                        <input type="radio" id="chargerCompte" value="chargerCompte" [ngModel]="envoyer" checked
+                            name="envoyer" />
+                        <label for="chargerCompte">Charger account</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="transfererArgent" value="transfererArgent" [ngModel]="envoyer"
+                            name="envoyer" />
+                        <label for="transfererArgent">Transferer sur mon banque</label>
+                    </div>
+                </fieldset>
+                <input type="text" class="balance" name="balance" [(ngModel)]="balance" required placeholder="Amount"
+                    name="balance" [ngModel]="balance" /> <br>
+                <button [disabled]="chargerForm.invalid" type="submit">Valider</button>
             </form>
-
         </div>
-       
-        <div *ngIf="iban" >
-            <p>Ton IBAN : <b>{{iban}}</b> </p>
-            <button type="submit">Modifier</button>
+        <!-- <div>
+        <h4> Envoyer argent à un(e) ami(e)</h4>
+        <form #sendForm="ngForm" (ngSubmit)="send(sendForm)">
+        <div>
+            <label for="balance">Email</label>
+            <input type="text" class="form-control" name="friendsMail" [(ngModel)]="friendsMail" required placeholder="friendsMail"
+                name="friendsMail" [ngModel]="friendsMail" />
         </div>
-    </div>
-    <div>
-        <h4> Gestion argent</h4>
-        <form class="custom_form" name="form" (ngSubmit)="charger()" #f="ngForm" novalidate>
-            <fieldset>
-                <div>
-                    <input type="radio" id="deposit" name="deposit" value="deposit" checked />
-                    <label for="deposit">Deposit</label>
-                </div>
-                <div>
-                    <input type="radio" id="deposit" name="deposit" value="deposit" checked />
-                    <label for="deposit">Wiithdraw</label>
-                </div>
-            </fieldset>
             <div>
                 <label for="balance">Amount</label>
-                <input type="text" class="form-control" name="balance" [(ngModel)]="balance" required placeholder="Iban" />
+                <input type="text" class="form-control" name="balance" [(ngModel)]="balance" required placeholder="amount"
+                    name="balance" [ngModel]="balance" />
             </div>
             <button type="submit">Valider</button>
         </form>
+    </div> -->
     </div>
-</div>
 
-<app-friend [friendList]="userFriendList" [allUser]="allUser"></app-friend>
+    <app-friend [friendList]="userFriendList" [allUser]="allUser"></app-friend>
 
 
 </div>

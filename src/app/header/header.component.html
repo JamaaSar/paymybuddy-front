@@ -1,13 +1,12 @@
 <header class="header">
     <h2>Pay My Buddy</h2>
 
-    <ul class="menu" >
-        <li [routerLink]="['/home']">Home</li>
-        <li *ngIf="currentUser" [routerLink]="['/profile']">Profile</li>
-        <li *ngIf="!currentUser" [routerLink]="['/signup']" >Sign up</li>
-        <li *ngIf="currentUser" [routerLink]="['/logout']" (click)="logout()">Logout</li> 
+    <ul class="menu">
+        <li [routerLink]="['/home']">Accueil</li>
+        <li *ngIf="currentUser" [routerLink]="['/profile']">Profil</li>
+        <li *ngIf="!currentUser" [routerLink]="['/signup']">S'inscrire</li>
+        <li *ngIf="currentUser" [routerLink]="['/logout']" (click)="logout()">Se déconnecter</li>
 
     </ul>
 
 </header>
-

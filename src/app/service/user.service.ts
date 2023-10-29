@@ -40,8 +40,13 @@ export class UserService {
       {iban, balance}, { headers: this.headers });
   }
   
-  chargerAccount(id: number, balance: number): Observable<any>  {
-    return this.http.post(`${environment.apiUrl}/user/${id}/chargerAccount/${balance}`,httpOptions);
-    }
+  updateAccount(id: number, balance: number, envoyer:string): Observable<any>  {
+    return this.http.post(`${environment.apiUrl}/user/${id}/${envoyer}/${balance}`,{ headers: this.headers });
+  }
+
+  send(id: number, balance: number, friendMail:string): Observable<any>  {
+    return this.http.post(`${environment.apiUrl}/user/${id}/envoyer/${friendMail}`,
+      {  balance }, { headers: this.headers });
+  }
 
 }
