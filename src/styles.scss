@@ -41,7 +41,8 @@ body {
   height: 100%;
 }
 body {
-  margin: 0 200px;
+  margin: 0 auto;
+  padding: 0 10%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .custom_input {
@@ -103,4 +104,13 @@ input:-internal-autofill-selected {
 }
 .is-invalid {
   border: 0.5px solid rgb(195, 70, 70);
+}
+.p-paginator {
+  button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 100%;
+    margin: 20px 5px;
+  }
 }

@@ -13,8 +13,8 @@ export class SignupComponent {
   isSignUpFailed = false;
   errorMessage = '';
   signupForm: any = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    firstname: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
     email: new FormControl('', [
       Validators.required,
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
@@ -36,19 +36,18 @@ export class SignupComponent {
     return this.signupForm.get('password');
   }
 
-  get firstName() {
-    return this.signupForm.get('firstName');
+  get firstname() {
+    return this.signupForm.get('firstname');
   }
 
-  get lastName() {
-    return this.signupForm.get('lastName');
+  get lastname() {
+    return this.signupForm.get('lastname');
   }
   onRegister(): void {
-    console.log('object');
     this.authService
       .register(
-        this.signupForm.get('firstName').value,
-        this.signupForm.get('lastName').value,
+        this.signupForm.get('firstname').value,
+        this.signupForm.get('lastname').value,
         this.signupForm.get('email').value,
         this.signupForm.get('password').value
       )
@@ -60,7 +59,7 @@ export class SignupComponent {
         },
         error: (error) => {
           this.isSignUpFailed = true;
-          this.errorMessage = error.error.message;
+          this.errorMessage = error.error;
           console.error('There was an error!', error);
         },
       });

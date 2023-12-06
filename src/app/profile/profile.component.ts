@@ -19,13 +19,13 @@ export class ProfileComponent implements OnInit {
   currentUser!: User;
   id!: number;
   accountForm: any;
-  iban: string = '';
+  iban: any = '';
   balance: any;
-  userAccount!: Account;
+  userAccount: Account | undefined;
   userFriendList: any = new Array<User>();
   allUser: User[] = [];
   envoyerArgent: any;
-  transfererArgent: any;
+  transfert: any;
   isValidFormSubmitted = false;
   envoyer: any;
   solde: any;
@@ -33,18 +33,22 @@ export class ProfileComponent implements OnInit {
   ibanForm: any = new FormGroup({
     iban: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
+  errorMessage = '';
+  chargerFailed = false;
+  addIbanFailed = false;
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.id = JSON.parse(localStorage.getItem('id')!);
-    this.userService.getUser(this.id).subscribe((res: any) => {
-      this.currentUser = res;
-      this.userAccount = res.account;
-      console.log(this.userAccount);
-      this.iban = res.account?.iban;
-      this.solde = res.account?.balance;
-      this.userFriendList = res.friends ? res.friends : null;
+    this.userService.getUser(this.id).subscribe({
+      next: (data) => {
+        this.currentUser = data;
+        this.userFriendList = data.friendsList;
+        this.userAccount = data.account;
+        this.iban = data.account?.iban;
+      },
+      error: (err) => {},
     });
     this.getAllUser();
   }
@@ -54,19 +58,29 @@ export class ProfileComponent implements OnInit {
       next: (data) => {
         this.allUser = data;
       },
-      error: (err) => {},
+      error: (error) => {},
     });
   }
   addIban() {
+    this.chargerFailed = false;
     this.userService
       .addAcount(this.id, this.ibanForm.get('iban').value, 0)
-      .subscribe((res: any) => {
-        this.currentUser = res;
-        window.location.reload();
+      .subscribe({
+        next: (data) => {
+          this.currentUser = data;
+          window.location.reload();
+        },
+        error: (error) => {
+          this.addIbanFailed = true;
+          this.errorMessage = error.error;
+          console.error('There was an error!', error);
+        },
       });
   }
 
   charger(chargerForm: NgForm) {
+    this.addIbanFailed = false;
+
     this.isValidFormSubmitted = false;
     if (chargerForm.invalid) {
       return;
@@ -74,14 +88,17 @@ export class ProfileComponent implements OnInit {
     this.isValidFormSubmitted = true;
     this.balance = chargerForm.controls['balance'].value;
     this.envoyer = chargerForm.controls['envoyer'].value;
-    console.log(this.envoyer);
     this.userService
       .updateAccount(this.id, this.balance, this.envoyer)
       .subscribe({
         next: (data) => {
           window.location.reload();
         },
-        error: (err) => {},
+        error: (error) => {
+          this.chargerFailed = true;
+          this.errorMessage = error.error;
+          console.error('There was an error!', error);
+        },
       });
   }
 }

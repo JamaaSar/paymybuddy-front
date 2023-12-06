@@ -1,0 +1,48 @@
+.homepage {
+  display: flex;
+  column-gap: 100px;
+
+  .sendForm {
+    display: flex;
+    flex-direction: column;
+    .firstRow {
+      display: flex;
+    }
+    input,
+    textarea {
+      border: 1px solid;
+      border-radius: 8px;
+      padding: 0 15px;
+      margin: 5px;
+    }
+
+    .balance {
+      width: 50px;
+      margin-left: 0px;
+    }
+    input {
+      width: 250px;
+    }
+    textarea {
+      width: 335px;
+      padding-top: 15px;
+    }
+    button {
+      width: 365px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      margin: 5px;
+      justify-content: center;
+      align-items: center;
+      background-color: #58af9b;
+      border: none;
+      color: white;
+      &:disabled {
+        background-color: #f0f4f3;
+        color: #58af9b;
+        border: 0.5px solid #58af9b;
+      }
+    }
+  }
+}

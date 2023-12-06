@@ -6,22 +6,27 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  currentUser!: User;
+  id: number;
+  constructor(private authService: AuthenticationService) {
+    this.id = JSON.parse(localStorage.getItem('id')!);
+  }
 
-
-@Input()
-currentUser: User = new User;
-  constructor(private authService: AuthenticationService) {}
-  
   ngOnInit() {
+    if (this.authService.isLoggedIn) {
+      this.authService.getUser(this.id).subscribe({
+        next: (data) => {
+          this.currentUser = data;
+        },
+        error: (err) => {},
+      });
+    }
   }
-  
-  logout():void {
+
+  logout(): void {
     this.authService.logout();
-
   }
-
-
 }

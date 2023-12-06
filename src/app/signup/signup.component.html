@@ -1,19 +1,19 @@
 <form class="signupForm" [formGroup]="signupForm" name="form" (ngSubmit)="onRegister()" novalidate>
-    <div class="custom_div" [class.is-invalid]="firstName.invalid && firstName.touched">
+    <div class="custom_div" [class.is-invalid]="firstname.invalid && firstname.touched">
         <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
-        <input type="text" class="custom_input" name="firstName" formControlName="firstName" required
+        <input type="text" class="custom_input" name="firstname" formControlName="firstname" required
             placeholder="Nom" />
     </div>
-    <div *ngIf="(firstName.invalid && firstName.touched) || firstName.dirty">
-        <small *ngIf="firstName.errors?.required" class="text-danger">Le nom de famille est obligatoire</small>
+    <div *ngIf="(firstname.invalid && firstname.touched) || firstname.dirty">
+        <small *ngIf="firstname.errors?.required" class="text-danger">Le nom de famille est obligatoire</small>
     </div>
-    <div class="custom_div" [class.is-invalid]=" lastName.invalid && lastName.touched">
+    <div class="custom_div" [class.is-invalid]=" lastname.invalid && lastname.touched">
         <mat-icon aria-hidden="false" class="custom_icon" fontIcon="person"></mat-icon>
-        <input type="text" class="custom_input" name="lastName" formControlName="lastName" required
+        <input type="text" class="custom_input" name="lastname" formControlName="lastname" required
             placeholder="Prenom" />
     </div>
-    <div *ngIf="(lastName.invalid && lastName.touched) || lastName.dirty">
-        <small *ngIf="lastName.errors?.required" class="text-danger">Le prénom est obligatoire</small>
+    <div *ngIf="(lastname.invalid && lastname.touched) || lastname.dirty">
+        <small *ngIf="lastname.errors?.required" class="text-danger">Le prénom est obligatoire</small>
     </div>
     <div class="custom_div" [class.is-invalid]="email.invalid && email.touched">
         <mat-icon aria-hidden="false" class="custom_icon" fontIcon="mail"></mat-icon>

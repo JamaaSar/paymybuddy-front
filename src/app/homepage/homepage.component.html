@@ -1,15 +1,55 @@
-<div style="margin: 0 60px;">
-        
-        <div>
-                <input type="text" placeholder="Selectionner un(e) ami(e)" >
-                <input type="text" placeholder="Ecrivez un message">
-                <input type="text" placeholder="montant">
-                <button>Envoyer</button>
-                
-        </div>
+<div class="homepage">
         <div>
                 <h4>Liste de toutes les transaction</h4>
-                <p> les virements</p>
+                <form [formGroup]="sendForm" novalidate (ngSubmit)="send()" class="sendForm">
+                        <div class="firstRow">
+                                <div>
+                                        <input [class.is-invalid]="friendsMail.invalid && friendsMail.touched"
+                                                type="text" name="friendsMail" formControlName="friendsMail" required
+                                                placeholder="Ecrire le mail" class="custom_input"
+                                                (ngModelChange)="onChange($event)" />
+                                        <ul *ngIf="searchResult.length > 0">
+                                                <li *ngFor="let show of searchResult" (click)="showDetails(show)"
+                                                        [hidden]="toggle">
+                                                        <p> {{ show.firstname }}</p>
+                                                </li>
+                                        </ul>
+                                </div>
+
+
+                                <input [class.is-invalid]="balance.invalid && balance.touched" type="text"
+                                        name="balance" formControlName="balance" required placeholder="balance"
+                                        class="custom_input balance" />
+
+                        </div>
+
+                        <div *ngIf="(balance.invalid && balance.touched) || balance.dirty">
+                                <small *ngIf="balance.errors?.required " class="text-danger">* Champ obligatoire</small>
+
+                        </div>
+                        <div *ngIf="(friendsMail.invalid && friendsMail.touched) || friendsMail.dirty">
+                                <small *ngIf="friendsMail.errors?.required" class="text-danger">* Champ
+                                        obligatoire</small>
+
+                        </div>
+                        <div *ngIf="notFound" class="alert" role="alert">
+                                {{ errorMessage }}
+                        </div>
+
+                        <textarea type="message" name="message" formControlName="message" required placeholder="message"
+                                class="custom_input"></textarea>
+                        <div *ngIf="failed" class="alert" role="alert">
+                                {{ errorMessage }}
+                        </div>
+                        <button [disabled]="sendForm.invalid" type="submit">Valider</button>
+                </form>
+
+        </div>
+
+        <div>
+                <h4>Liste de toutes les transaction</h4>
+
+                <app-transaction [recieved]="recieved" [sended]="sended"></app-transaction>
         </div>
 
 </div>

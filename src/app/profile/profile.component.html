@@ -1,23 +1,25 @@
 <div class="container">
     <div class="custom_grid">
-        <div class="gestionIban">
+        <div>
             <h4> Gestion IBAN</h4>
             <div *ngIf="!iban">
-                <h5>Ajouter un IBAN</h5>
-                <form class="custom_form" name="form" (ngSubmit)="addIban()" [formGroup]="ibanForm" novalidate>
-                    <label for="iban">Iban</label>
+                <form class="addCustomForm" name="form" (ngSubmit)="addIban()" [formGroup]="ibanForm" novalidate>
+                    <label for="iban">Ajouter un IBAN &nbsp; </label>
                     <input type="text" class="form-control" name="iban" formControlName="iban" required
-                        placeholder="Iban" />
-                    <button type="submit">Submit</button>
+                        placeholder="Numero IBAN " />
+                    <button type="submit">Ok</button>
                 </form>
+                <div *ngIf="addIbanFailed" class="alert" role="alert">
+                    {{ errorMessage }}
+                </div>
             </div>
             <div *ngIf="iban">
                 <table class="sectionIban">
                     <thead>
                         <tr>
-                            <th style="width: 200px; text-align: left;">Iban</th>
-                            <th style="width: 100px; text-align: left;">Solde</th>
-                            <th style="width: 50px; text-align: left;">Editer</th>
+                            <th>Iban</th>
+                            <th>Solde</th>
+                            <th>Editer</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,10 +33,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <div *ngIf="iban">
-                <p>solde: <b>{{solde}}</b> </p>
-            </div>
         </div>
 
 
@@ -43,37 +41,22 @@
             <form #chargerForm="ngForm" (ngSubmit)="charger(chargerForm)">
                 <fieldset>
                     <div>
-                        <input type="radio" id="chargerCompte" value="chargerCompte" [ngModel]="envoyer" checked
-                            name="envoyer" />
-                        <label for="chargerCompte">Charger account</label>
+                        <input type="radio" id="charger" value="charger" [ngModel]="envoyer" checked name="envoyer" />
+                        <label for="charger">Charger account</label>
                     </div>
                     <div>
-                        <input type="radio" id="transfererArgent" value="transfererArgent" [ngModel]="envoyer"
-                            name="envoyer" />
-                        <label for="transfererArgent">Transferer sur mon banque</label>
+                        <input type="radio" id="transfert" value="transfert" [ngModel]="envoyer" name="envoyer" />
+                        <label for="transfert">Transferer sur mon banque</label>
                     </div>
                 </fieldset>
                 <input type="text" class="balance" name="balance" [(ngModel)]="balance" required placeholder="Amount"
                     name="balance" [ngModel]="balance" /> <br>
                 <button [disabled]="chargerForm.invalid" type="submit">Valider</button>
             </form>
-        </div>
-        <!-- <div>
-        <h4> Envoyer argent à un(e) ami(e)</h4>
-        <form #sendForm="ngForm" (ngSubmit)="send(sendForm)">
-        <div>
-            <label for="balance">Email</label>
-            <input type="text" class="form-control" name="friendsMail" [(ngModel)]="friendsMail" required placeholder="friendsMail"
-                name="friendsMail" [ngModel]="friendsMail" />
-        </div>
-            <div>
-                <label for="balance">Amount</label>
-                <input type="text" class="form-control" name="balance" [(ngModel)]="balance" required placeholder="amount"
-                    name="balance" [ngModel]="balance" />
+            <div *ngIf="chargerFailed" class="alert" role="alert">
+                {{ errorMessage }}
             </div>
-            <button type="submit">Valider</button>
-        </form>
-    </div> -->
+        </div>
     </div>
 
     <app-friend [friendList]="userFriendList" [allUser]="allUser"></app-friend>

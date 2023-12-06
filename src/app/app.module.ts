@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
+import { TransactionComponent } from './transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ButtonModule } from 'primeng/button';
     HomepageComponent,
     FriendComponent,
     ProfileComponent,
+    TransactionComponent,
   ],
   imports: [
     BrowserModule,

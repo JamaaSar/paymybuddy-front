@@ -42,11 +42,10 @@ export class AuthenticationService {
   }
 
   getToken() {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('auth_token');
   }
 
   login(email: string, password: string): Observable<any> {
-    console.log('object');
     return this.http.post<User>(
       `${environment.apiUrl}/login`,
       { email, password },
@@ -55,14 +54,14 @@ export class AuthenticationService {
   }
 
   register(
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     email: string,
     password: string
   ): Observable<User> {
     return this.http.post<User>(
-      `${environment.apiUrl}/register`,
-      { firstName, lastName, email, password },
+      `${environment.apiUrl}/signup`,
+      { firstname, lastname, email, password },
       httpOptions
     );
   }
@@ -80,7 +79,7 @@ export class AuthenticationService {
   handleError(error: HttpErrorResponse) {
     let msg = '';
     if (error.error instanceof ErrorEvent) {
-      msg = error.error.message;
+      msg = error.error.error;
     } else {
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }

@@ -4,34 +4,29 @@
         <input type="text" placeholder="Chercher un(e) ami(e)" [ngModel]='text' (ngModelChange)="onChange($event)">
         <ul>
             <li *ngFor="let show of searchResult" (click)="showDetails(show)" [hidden]="toggle">
-                <p> {{ show.firstName }}</p>
+                <p> {{ show.firstname }}</p>
             </li>
         </ul>
     </div>
 
 
-    <p-table *ngIf="friendList?.length > 0" [value]="friendList" [paginator]="true" [rows]="5"
-        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10, 25, 50]">
+    <p-table class="friendsTable" *ngIf="friendList?.length > 0" [value]="friendList" [paginator]="true" [rows]="5"
+        [totalRecords]="friendList?.length" [showCurrentPageReport]="true"
+        currentPageReportTemplate=" {first} of {totalRecords} " [rowsPerPageOptions]="[10, 20, 30]">
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:80px">Nom</th>
-                <th style="width:80px">Prenom</th>
-                <th style="width:80px">Email</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
             </tr>
         </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-        </ng-template>
+
     </p-table>
 </div>

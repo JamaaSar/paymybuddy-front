@@ -1,15 +1,12 @@
-import { Account } from "./account";
+import { Account } from './account';
 
-export class User{
-    id!: number;
-    firstName!: string;
-    lastName!: string;
-    email!: string;
-    password?: string;
-    account?: Account;
-    friends?: User[] ;
-    token?: string;
-
-
-
+export class User {
+  id!: number;
+  firstname!: string;
+  lastname!: string;
+  email!: string;
+  password?: string;
+  account?: Account;
+  friendsList?: User[];
+  token?: string;
 }

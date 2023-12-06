@@ -2,11 +2,12 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { User } from 'src/model/user';
 import { AuthenticationService } from '../service/authentication.service';
 import { UserService } from '../service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-friend',
   templateUrl: './friend.component.html',
-  styleUrls: ['./friend.component.scss']
+  styleUrls: ['./friend.component.scss'],
 })
 export class FriendComponent {
   displayedColumns = 6;
@@ -18,7 +19,9 @@ export class FriendComponent {
   allUser: User[] = [];
   searchResult: User[] = [];
   text!: string;
-  constructor(private userService: UserService) {
+  errorMessage = '';
+
+  constructor(private userService: UserService, public router: Router) {
     this.id = JSON.parse(localStorage.getItem('id')!);
   }
 
@@ -27,19 +30,25 @@ export class FriendComponent {
   onChange(e: string) {
     this.text = e;
     if (!e) {
-      this.searchResult = this.friendList;
+      this.searchResult = [];
+    } else {
+      this.searchResult = this.allUser.filter((user) =>
+        user?.email.toLowerCase().includes(e)
+      );
     }
-    this.searchResult = this.allUser.filter(user => user?.email.toLowerCase().includes(e));
     this.toggle = false;
   }
 
-  showDetails(series:User) {
+  showDetails(series: User) {
     this.toggle = true;
-    console.log(series)
     this.userService.addFriend(this.id, series.email).subscribe({
-      next: data => {
+      next: (res) => {
+        window.location.reload();
       },
-      error: err => {
-      }
+      error: (error) => {
+        this.errorMessage = error.error;
+        console.error('There was an error!', error);
+      },
     });
-}}
+  }
+}
